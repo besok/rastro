@@ -1,3 +1,4 @@
-# JTS-rs
-a Rust library for creating and manipulating vector geometry. 
-Taken from the Java Topology Suite (JTS) library.
+# Rastro 
+The set of structures and algorithms to work with the data and objects of astronomy and astrophysics.
+
+Inspired by the [Astropy](https://www.astropy.org/) project, 
