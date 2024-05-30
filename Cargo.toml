@@ -1,0 +1,14 @@
+[package]
+name = "rastro"
+description = "Astronomy and astrophysics library for Rust"
+version = "0.1.0"
+edition = "2021"
+authors = ["BorisZhguchev <zhguchev@gmail.com>"]
+license-file = "LICENSE"
+keywords = ["astronomy", "astrophysics", "science", "physics", "mathematics"]
+homepage = "https://github.com/besok/rastro"
+repository = "https://github.com/besok/rastro"
+categories= ["algorithms", "science" ]
+
+[dependencies]
+plotters="0.3.6"
