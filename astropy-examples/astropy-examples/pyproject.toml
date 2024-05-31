@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "astropy-examples"
+version = "0.1.0"
+description = ""
+authors = ["Boris Zhguchev <zhguchev@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+astropy = "^6.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
