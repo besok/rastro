@@ -119,7 +119,7 @@ impl Configuration {
         }
     }
     pub fn from_toml_file(file_path: &PathBuf) -> Result<Configuration, ConfigurationError> {
-        let toml_str = std::fs::read_to_string(file_path)
+        let toml_str = fs::read_to_string(file_path)
             .map_err(|e| ConfigurationError(format!("{:?}", e)))?;
         Configuration::from_toml_str(toml_str)
     }

@@ -4,7 +4,8 @@ use crate::config::{Configuration, ConfigurationError};
 
 
 pub fn rastro_config_path() -> Result<PathBuf, ConfigurationError> {
-    dirs::home_dir().map(|p| p.join(".rastro").join("config.toml"))
+    dirs::home_dir()
+        .map(|p| p.join(".rastro").join("config.toml"))
         .ok_or(ConfigurationError("Could not find home directory".to_owned()))
 }
 
