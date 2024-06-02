@@ -1,6 +1,14 @@
-use toml::{Value};
+
+/// This macro is used to define a configuration variable.
+/// It creates a struct with a single field, the value of the variable.
+/// The struct has methods to get and set the value.
+/// The struct implements the Default trait.
+/// The struct has a method to convert a TOML Value to the struct.
+///
+/// See usages in the values.rs file.
+///
 #[macro_export]
-macro_rules! var {
+macro_rules! cfg_var {
     (
         name: $name:ident,
         type: $tpe:ty,
@@ -28,17 +36,7 @@ macro_rules! var {
             }
 
             pub fn from_toml_value(toml_value: &Value) -> Result<$name, ConfigurationError> {
-                let tpe_str = stringify!($tpe);
-                let name_str = stringify!($name);
-                let value: $tpe =
-                toml_value
-                    .try_into()
-                    .map_err(|_| ConfigurationError(
-                        format!("\
-                        the conversion error for {name_str} occured. \
-                        The type = {tpe_str} \
-                        ")
-                ))?;
+                let value: $tpe = <$tpe>::from_toml_value(toml_value)?;
                 Ok($name::new(value))
             }
         }
@@ -51,8 +49,16 @@ macro_rules! var {
         }
     };
 }
+
+/// This macro is used to define a configuration namespace.
+/// It creates a struct with fields for each variable in the namespace.
+/// It creates a method to get the name of the namespace.
+/// It creates a method to convert the namespace to a TOML section.
+/// It creates a method to convert a TOML Table to the namespace.
+///
+/// See usages in the values.rs file.
 #[macro_export]
-macro_rules! namespace {
+macro_rules! cfg_namespace {
     (
         name: $name:expr,
         tpe: $tpe:ident,
@@ -82,6 +88,27 @@ macro_rules! namespace {
                     s.push_str(&format!("{} = {:?}\n", stringify!($v), self.$v.get()));
                 )*
                 s
+            }
+            pub fn from_toml_section(toml_table:&Table) -> Result<$tpe, ConfigurationError> {
+                let mut res = $tpe::default();
+                if let Some(section) = toml_table.get($name) {
+                    if let Value::Table(section) = section {
+                        $(
+                            let toml_value = section.get(stringify!($v));
+                            if let Some(toml_value) = toml_value {
+                                res.$v = $tp::from_toml_value(toml_value)?;
+                            }
+                        )*
+                        Ok(res)
+                    }else {
+                        Err(ConfigurationError(
+                            format!("Invalid TOML file. The section {} has wrong format. \
+                            Expected a table, got {:?}", $name, section)))
+                    }
+
+                } else {
+                    Ok(res)
+                }
             }
         }
 

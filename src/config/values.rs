@@ -1,7 +1,8 @@
-use crate::{namespace, var};
-use toml::Value;
+use crate::{cfg_namespace, cfg_var};
+use toml::{Value,Table};
 use crate::config::ConfigurationError;
-namespace!(
+use crate::config::cast::FromTomlValue;
+cfg_namespace!(
     name: "logger",
     tpe: Logger,
     body:
@@ -15,7 +16,7 @@ namespace!(
         log_file_encoding: LogFileEncoding,
 );
 
-namespace!(
+cfg_namespace!(
     name: "console",
     tpe: Console,
     body:
@@ -25,7 +26,7 @@ namespace!(
         max_width: MaxWidth,
 );
 
-namespace!(
+cfg_namespace!(
     name: "visualization.wcsaxes",
     tpe: Visualization,
     body:
@@ -35,7 +36,7 @@ namespace!(
         contour_grid_samples: ContourGridSamples,
 );
 
-namespace!(
+cfg_namespace!(
     name: "utils.iers",
     tpe: Iers,
     body:
@@ -50,7 +51,7 @@ namespace!(
 );
 
 
-namespace!(
+cfg_namespace!(
     name: "utils.data",
     tpe: Data,
     body:
@@ -65,35 +66,35 @@ namespace!(
 );
 
 
-var!(
+cfg_var!(
     name: LogLevel,
     type: String,
     dsc: "# The level of the logger",
     default: "INFO".to_string()
 );
 
-var!(
+cfg_var!(
     name:  LogWarnings,
     type: bool,
     dsc: "# Whether to log `warnings.warn` calls.",
     default: true
 );
 
-var!(
+cfg_var!(
     name: LogExceptions,
     type: bool,
     dsc: "# Whether to log exceptions before raising them.",
     default: false
 );
 
-var!(
+cfg_var!(
     name: LogToFile,
     type: bool,
     dsc: "# Whether to always log messages to a log file.",
     default: false
 );
 
-var!(
+cfg_var!(
     name: LogFilePath,
     type: String,
     dsc: r#"# The file to log messages to.
@@ -101,21 +102,21 @@ var!(
     default: "".to_string()
 );
 
-var!(
+cfg_var!(
     name: LogFileLevel,
     type: String,
     dsc: "# Threshold for logging messages to `log_file_path`.",
     default: "INFO".to_string()
 );
 
-var!(
+cfg_var!(
     name: LogFileFormat,
     type: String,
     dsc: "# Format for log file entries.",
     default: "%(asctime)r, %(origin)r, %(levelname)r, %(message)r".to_string()
 );
 
-var!(
+cfg_var!(
     name: LogFileEncoding,
     type: String,
     dsc: r#"# The encoding (e.g., UTF-8) to use for the log file.
@@ -123,34 +124,34 @@ var!(
     default: "".to_string()
 );
 
-var!(
+cfg_var!(
     name: AllowInternet,
     type: bool,
     dsc: "# If False, prevents any attempt to download from Internet.",
     default: true
 );
-var!(
+cfg_var!(
     name: ComputeHashBlockSize,
     type: i32,
     dsc: "# Block size for computing file hashes.",
     default: 65536
 );
 
-var!(
+cfg_var!(
     name: DataUrl,
     type: String,
     dsc: "# Primary URL for astropy remote data site.",
     default: "http://data.astropy.org/".to_string()
 );
 
-var!(
+cfg_var!(
     name: DataUrlMirror,
     type: String,
     dsc: "# Mirror URL for astropy remote data site.",
     default: "http://www.astropy.org/astropy-data/".to_string()
 );
 
-var!(
+cfg_var!(
     name: DefaultHttpUserAgent,
     type: String,
     dsc: r#"# Default User-Agent for HTTP request headers.
@@ -159,7 +160,7 @@ var!(
     default: "astropy".to_string()
 );
 
-var!(
+cfg_var!(
     name: DeleteTemporaryDownloadsAtExit,
     type: bool,
     dsc: r#"# If True, temporary download files created
@@ -167,14 +168,14 @@ var!(
     default: true
 );
 
-var!(
+cfg_var!(
     name: DownloadBlockSize,
     type: i32,
     dsc: "# Number of bytes of remote data to download per step.",
     default: 65536
 );
 
-var!(
+cfg_var!(
     name: DataQueryRemoteTimeout,
     type: f64,
     dsc: "# Time to wait for remote data queries (in seconds).",
@@ -182,7 +183,7 @@ var!(
 );
 
 
-var!(
+cfg_var!(
     name: AutoDownload,
     type: bool,
     dsc: r#"#Enable auto-downloading of the latest IERS data.
@@ -193,36 +194,36 @@ var!(
     default: true
 );
 
-var!(
+cfg_var!(
     name: AutoMaxAge,
-    type: f32,
+    type: f64,
     dsc: r#"# Maximum age (days) of predictive data before auto-downloading.
 # See 'Auto refresh behavior' in astropy.utils.iers documentation for details. Default is 30."#,
     default: 30.0
 );
 
-var!(
+cfg_var!(
     name: IersAutoUrl,
     type: String,
     dsc: "# URL for auto-downloading IERS file data.",
     default: "https://datacenter.iers.org/data/9/finals2000A.all".to_string()
 );
 
-var!(
+cfg_var!(
     name: IersAutoUrlMirror,
     type: String,
     dsc: "# Mirror URL for auto-downloading IERS file data.",
     default: "https://maia.usno.navy.mil/ser7/finals2000A.all".to_string()
 );
 
-var!(
+cfg_var!(
     name: RemoteTimeout,
-    type: f32,
+    type: f64,
     dsc: "# Remote timeout downloading IERS file data (seconds).",
     default: 10.0
 );
 
-var!(
+cfg_var!(
     name: IersDegradedAccuracy,
     type: String,
     dsc: r#"# IERS behavior if the range of available IERS data does not cover
@@ -230,14 +231,14 @@ var!(
     default: "error".to_string()
 );
 
-var!(
+cfg_var!(
     name: SystemLeapSecondFile,
     type: String,
     dsc: "# System file with leap seconds.",
     default: "".to_string()
 );
 
-var!(
+cfg_var!(
     name: IersLeapSecondAutoUrl,
     type: String,
     dsc: "# URL for auto-downloading leap seconds.",
@@ -245,28 +246,28 @@ var!(
 );
 
 
-var!(
+cfg_var!(
     name: CoordinateRangeSamples,
     type: i32,
     dsc: "# The number of samples along each image axis when determining the range of coordinates in a plot.",
     default: 50
 );
 
-var!(
+cfg_var!(
     name: FrameBoundarySamples,
     type: i32,
     dsc: "# How many points to sample along the axes when determining tick locations.",
     default: 1000
 );
 
-var!(
+cfg_var!(
     name: GridSamples,
     type: i32,
     dsc: "# How many points to sample along grid lines.",
     default: 1000
 );
 
-var!(
+cfg_var!(
     name: ContourGridSamples,
     type: i32,
     dsc: "# The grid size to use when drawing a grid using contours",
@@ -275,21 +276,21 @@ var!(
 
 
 
-var!(
+cfg_var!(
     name: UnicodeOutput,
     type: bool,
     dsc: "# When True, use Unicode characters when outputting values, and displaying widgets at the console",
     default: false
 );
 
-var!(
+cfg_var!(
     name: UseColor,
     type: bool,
     dsc: "# When True, use ANSI color escape sequences when writing to the console",
     default: true
 );
 
-var!(
+cfg_var!(
     name: MaxLines,
     type: i32,
     dsc: r#"# Maximum number of lines in the display of pretty-printed objects.
@@ -298,7 +299,7 @@ var!(
     default: -1
 );
 
-var!(
+cfg_var!(
     name: MaxWidth,
     type: i32,
     dsc: r#"# Maximum number of characters per line in the display of pretty-printed objects.
