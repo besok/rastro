@@ -11,3 +11,5 @@ The contribution is very welcome.
 ### Template
 ### Directory
 ### Examples
+
+# Constants
