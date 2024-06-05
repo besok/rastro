@@ -50,6 +50,12 @@ cfg_namespace!(
         iers_leap_second_auto_url: IersLeapSecondAutoUrl,
 );
 
+cfg_namespace!(
+    name: "units.quantity",
+    tpe: Units,
+    body:
+        latex_array_threshold : LatexArrayThreshold,
+);
 
 cfg_namespace!(
     name: "utils.data",
@@ -65,6 +71,18 @@ cfg_namespace!(
         data_query_remote_timeout: DataQueryRemoteTimeout,
 );
 
+// ## The maximum size an array Quantity can be before its LaTeX representation
+// ## for IPython gets "summarized" (meaning only the first and last few elements
+// ## are shown with "..." between). Setting this to a negative number means that
+// ## the value will instead be whatever numpy gets from get_printoptions.
+// # latex_array_threshold = 100
+
+cfg_var!(
+    name: LatexArrayThreshold,
+    type: i32,
+    dsc: r#"The maximum size an array Quantity can be before its LaTeX representation"#,
+    default: 100
+);
 
 cfg_var!(
     name: LogLevel,

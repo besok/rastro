@@ -86,6 +86,7 @@ pub struct Configuration {
     pub visualization: Visualization,
     pub iers: Iers,
     pub data: Data,
+    pub units: Units,
 }
 
 impl Configuration {
@@ -107,12 +108,14 @@ impl Configuration {
             let visualization = Visualization::from_toml_section(&tbl)?;
             let iers = Iers::from_toml_section(&tbl)?;
             let data = Data::from_toml_section(&tbl)?;
+            let units = Units::from_toml_section(&tbl)?;
             Ok(Configuration {
                 logger,
                 console,
                 visualization,
                 iers,
                 data,
+                units
             })
         } else {
             Err(ConfigurationError("Invalid TOML file. The toml file should have the sections".to_owned()))
