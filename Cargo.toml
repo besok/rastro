@@ -14,3 +14,4 @@ categories= ["algorithms", "science" ]
 plotters="0.3.6"
 toml = "0.8.13"
 dirs = "5.0.1"
+uom = "0.36.0"
