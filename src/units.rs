@@ -1,3 +1,4 @@
+#[macro_use]
 pub mod iau;
 
 use std::fmt::{Display, Formatter};
