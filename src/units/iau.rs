@@ -1,3 +1,5 @@
+/// This package defines the astrophysics-specific units.
+
 #[macro_use]
 mod length {
     quantity! {
