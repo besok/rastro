@@ -37,7 +37,8 @@ mod light {
                 P1 /*light*/,
                 Z0 /*time*/,
                 Z0 /*energy*/,
-                Z0 /*mass*/
+                Z0 /*mass*/,
+                Z0 /*force*/
             >;
             units {
                 @watt: 1.0; "W", "watt", "watts";
@@ -45,6 +46,7 @@ mod light {
                 @photon: 6.626e-34; "photon", "photon", "photon";
                 @jansky: 1.0e-26; "Jy", "Jansky", "Jansky";
                 @rayleigh: 1.0e-26; "R", "Rayleigh", "Rayleigh";
+                @speed_of_light: 2.99792458e8; "c", "speed of light in vacuum", "speed of light";
             }
         }
 }
@@ -61,13 +63,18 @@ mod energy {
             Z0 /*light*/,
             P1 /*energy*/,
             Z0 /*time*/,
-            Z0 /*mass*/
+            Z0 /*mass*/,
+            Z0 /*force*/
         >;
         units {
             @joule: 1.0; "J", "joule", "joules";
             @rydberg: 2.17987e-18; "Ry", "Rydberg", "Rydbergs";
             @foe: 1.0e44; "foe", "Foe", "Foe";
             @bethe: 1.0e44; "B", "Bethe", "Bethe";
+            @plank_constant: 6.62607015e-34; "h", "Planck constant", "Planck constant";
+            @reduced_plank_constant: 1.0545718e-34; "ħ", "Reduced Planck constant", "Reduced Planck constant";
+            @boltzmann_constant: 1.380649e-23; "k", "Boltzmann constant", "Boltzmann constant";
+            @stephan_boltzmann_constant: 5.670374419e-8; "σ", "Stephan-Boltzmann constant", "Stephan-Boltzmann constant";
         }
     }
 }
@@ -83,13 +90,38 @@ mod mass {
             Z0 /*light*/,
             Z0 /*energy*/,
             P1 /*mass*/,
-            Z0 /*time*/
+            Z0 /*time*/,
+            Z0 /*force*/
         >;
         units {
             @kilogram: 1.0; "kg", "kilogram", "kilograms";
             @sol_mass: 1.989e30; "M_sun", "Solar mass", "Solar mass";
             @jupiter_mass: 1.898e27; "M_jup", "Jupiter mass", "Jupiter mass";
             @earth_mass: 5.972e24; "M_earth", "Earth mass", "Earth mass";
+            @proton_mass: 1.6726219e-27; "m_p", "Proton mass", "Proton mass";
+            @neutron_mass: 1.6749275e-27; "m_n", "Neutron mass", "Neutron mass";
+            @electron_mass: 9.10938356e-31; "m_e", "Electron mass", "Electron mass";
+            @atomic_mass: 1.66053906660e-27; "u", "Atomic mass", "Atomic mass";
+        }
+    }
+}
+
+mod force {
+    quantity! {
+        /// Force (base unit newton, N).
+        quantity: Force; "force";
+        /// Force dimension, N.
+        dimension: Q<
+            Z0 /*length*/,
+            Z0 /*light*/,
+            Z0 /*energy*/,
+            Z0 /*time*/,
+            Z0 /*mass*/,
+            P1 /*force*/
+        >;
+        units {
+            @newton: 1.0; "N", "newton", "newtons";
+            @gravitational_constant: 6.67430e-11; "G", "Gravitational constant", "Gravitational constant";
         }
     }
 }
@@ -103,7 +135,8 @@ mod time {
                 Z0 /*light*/,
                 Z0 /*energy*/,
                 Z0 /*mass*/,
-                P1 /*time*/
+                P1 /*time*/,
+                Z0 /*force*/
             >;
             units {
                 @second: 1.0; "s", "second", "seconds";
@@ -119,6 +152,7 @@ system! {
         time: second, T;
         energy: joule, J;
         light: watt, W;
+        force: newton, F;
     }
 
     units: U {
@@ -127,6 +161,7 @@ system! {
         mod energy::Energy,
         mod mass::Mass,
         mod time::Time,
+        mod force::Force,
     }
 }
 pub mod f64 {
