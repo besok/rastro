@@ -75,6 +75,8 @@ mod energy {
             @reduced_plank_constant: 1.0545718e-34; "ħ", "Reduced Planck constant", "Reduced Planck constant";
             @boltzmann_constant: 1.380649e-23; "k", "Boltzmann constant", "Boltzmann constant";
             @stephan_boltzmann_constant: 5.670374419e-8; "σ", "Stephan-Boltzmann constant", "Stephan-Boltzmann constant";
+            @electron_charge: 1.602176634e-19; "e", "Elementary charge", "Elementary charge";
+            @electric_constant: 8.8541878128e-12; "ε₀", "Electric constant", "Electric constant";
         }
     }
 }
@@ -102,6 +104,7 @@ mod mass {
             @neutron_mass: 1.6749275e-27; "m_n", "Neutron mass", "Neutron mass";
             @electron_mass: 9.10938356e-31; "m_e", "Electron mass", "Electron mass";
             @atomic_mass: 1.66053906660e-27; "u", "Atomic mass", "Atomic mass";
+
         }
     }
 }
