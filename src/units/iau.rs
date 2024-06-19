@@ -8,10 +8,11 @@ mod length {
             /// Length dimension, pc.
             dimension: Q<
                 P1 /*length*/,
-                Z0 /*mass*/,
-                Z0 /*time*/,
+                Z0 /*light*/,
                 Z0 /*energy*/,
-                Z0 /*light*/
+                Z0 /*time*/,
+                Z0 /*mass*/,
+                Z0 /*force*/
             >;
             units {
                 @meter: 1.0E0; "m", "meter", "meters";
